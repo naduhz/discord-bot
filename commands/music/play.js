@@ -1,6 +1,3 @@
-const ytdl = require('ytdl-core');
-const queue = new Map();
-
 module.exports = {
     name: "play",
     description: "Start playing from the queue.",
@@ -28,7 +25,10 @@ module.exports = {
         
         // Join user's voice channel
         const connection = voiceChannel.join();
-        console.log(voiceChannel.members);
-        console.log(message.client.user)
+        if (connection) {
+            return message.reply(
+                'I am in your voice channel!'
+            )
+        };
     }
 }

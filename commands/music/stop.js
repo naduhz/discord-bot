@@ -12,7 +12,7 @@ module.exports = {
         };
 
         // Check that bot is in a voice channel
-        const botVoiceStatus = message.guild.voice
+        const botVoiceStatus = message.guild.voice.connection
         if (!botVoiceStatus) {
             return message.channel.send(
                 'I\'m not in a voice channel!'
@@ -25,6 +25,10 @@ module.exports = {
                 'I\'m not in your voice channel!'
                 );
         } else {
+            // Disconnect from voice channel
+            message.channel.send('Bye bye!');
+            botVoiceStatus.disconnect();
+
             // Check for song in queue
             // if (!serverQueue) {
             //     return message.channel.send(
