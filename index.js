@@ -3,12 +3,11 @@ const fs = require('fs')
 const Discord = require('discord.js');
 const commandFolder = fs.readdirSync('./commands')
 const { prefix, token, init_channel_id } = require('./config.json');
-const ytdl = require('ytdl-core');
 
 // Instantiation of client, commands and queue
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
-const queue = new Map();
+client.queue = new Discord.Collection();
 
 // Read commands
 for (const folder of commandFolder) {

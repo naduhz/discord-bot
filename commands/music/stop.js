@@ -2,6 +2,9 @@ module.exports = {
     name: "stop",
     description: "Stops the music player and removes all songs from the queue.",
     execute(message, args) {
+        // Fetch globalqueue and serverqueue
+        const globalQueue = message.client.queue;
+        const serverQueue = globalQueue.get(message.guild.id);
 
         // Check that user is in the voice channel
         const voiceChannel = message.member.voice.channel
@@ -30,14 +33,15 @@ module.exports = {
             botVoiceStatus.disconnect();
 
             // Check for song in queue
-            // if (!serverQueue) {
-            //     return message.channel.send(
-            //         'There is no song for me to stop!'
-            //         );
-            // }
+            if (!serverQueue) {
+                return message.channel.send(
+                    'There is no song for me to stop!'
+                    );
+            }
 
-            // serverQueue.songs = [];
-            // serverQUeue.connection.dispatcher.end();
+            // Remove songs from queue, stop connecting to voice channel
+            serverQueue.songs = [];
+            serverQueue.connection.dispatcher.end();
         }
     }
 }
