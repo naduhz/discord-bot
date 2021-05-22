@@ -12,14 +12,28 @@ module.exports = {
         };
 
         // Check that bot is in a voice channel
-        if (!message.guild.voice) {
+        const botVoiceStatus = message.guild.voice
+        if (!botVoiceStatus) {
             return message.channel.send(
                 'I\'m not in a voice channel!'
             );
-        } else {
-            console.log(voiceChannel);
-        }
-        // Match voice channel IDs
         }
 
+        // Match voice channel IDs
+        if (voiceChannel !== botVoiceStatus.channel) {
+            return message.channel.send(
+                'I\'m not in your voice channel!'
+                );
+        } else {
+            // Check for song in queue
+            // if (!serverQueue) {
+            //     return message.channel.send(
+            //         'There is no song for me to stop!'
+            //         );
+            // }
+
+            // serverQueue.songs = [];
+            // serverQUeue.connection.dispatcher.end();
+        }
     }
+}
