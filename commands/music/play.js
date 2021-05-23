@@ -75,7 +75,7 @@ module.exports = {
             return message.channel.send(`"${song.title}" has been added to the queue!`)
         }
 
-        // Play function
+        // Recursive play function
         function play(guild, song) {
             // If serverQueue is empty, leave the voice channel and delete the queue.
             const serverQueue = globalQueue.get(guild.id);
@@ -90,18 +90,19 @@ module.exports = {
             const dispatcher = serverQueue.connection.play(ytdl(song.url)).on("finish", () => {
                 // Change song on finish
                 serverQueue.songs.shift();
-                console.log(serverQueue.songs); 
-            }).on("error", error => console.error(error));
-            
+                console.log(serverQueue.songs);
+                play(guild, serverQueue.songs[0]);
+            }).on("error", error => {
+                console.error(error);
+                serverQueue.textChannel.send(`Sorry, "${song.title}" could not be played!!`);
+                serverQueue.songs.shift();
+                console.log(serverQueue.songs);
+                play(guild, serverQueue.songs[0]);
+            });
             dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
+
+            // Displays current track when song is changed.
             serverQueue.textChannel.send(`Now playing: "${song.title}"!`);
-            // Placeholder
-            // if (song) {
-            //     play(guild, serverQueue.songs[0]);
-            //     serverQueue.textChannel.send(`Now playing: "${serverQueue.songs[0]}"!`)
-            //     } else {
-            //         serverQueue.textChannel.send('There are no songs left in the queue!')
-            //     };
           }
         }
     }
