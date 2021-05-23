@@ -39,6 +39,7 @@ client.on('message', message => {
 
     const args = message.content.slice(prefix.length).trim().split(/ +/);
     const commandName = args.shift().toLowerCase();
+    console.log(args);
     
     if (!client.commands.has(commandName)) return message.reply('I do not know this command!');
 

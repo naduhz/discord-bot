@@ -26,13 +26,16 @@ module.exports = {
         };
         
         // Get song info from ytdl
-        const songInfo = await ytdl.getInfo(args);
+        let songInfo;
+        try { 
+            songInfo = await ytdl.getInfo(args) 
+        } catch (error) {
+            return message.channel.send('I need a song to play!')
+        };
         const song = {
                     title : songInfo.videoDetails.title,
                     url: songInfo.videoDetails.video_url
                 };
-        
-        
 
         // Check for an existing server queue
         if (!serverQueue) {
@@ -86,10 +89,11 @@ module.exports = {
             const dispatcher = serverQueue.connection.play(ytdl(song.url)).on("finish", () => {
                 serverQueue.songs.shift();
                 play(guild, serverQueue.songs[0]);
+                console.log(serverQueue.songs);
+                message.channel.send(`Now playing: "${song.title}"!`);
             }).on("error", error => console.error(error));
             dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
-            serverQueue.textChannel.send(`Now playing: "${song.title}"`);
+            serverQueue.textChannel.send(`Now playing: "${song.title}"!`);
           }
-
         }
     }
