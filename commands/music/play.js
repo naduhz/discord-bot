@@ -87,7 +87,7 @@ module.exports = {
             }
 
             // Song dispatcher
-            const dispatcher = serverQueue.connection.play(ytdl(song.url)).on("finish", () => {
+            const dispatcher = serverQueue.connection.play(ytdl(song.url, {highWaterMark: 1 << 25})).on("finish", () => {
                 // Change song on finish
                 serverQueue.songs.shift();
                 console.log(serverQueue.songs);
