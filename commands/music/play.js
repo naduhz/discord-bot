@@ -30,7 +30,14 @@ module.exports = {
         try { 
             songInfo = await ytdl.getInfo(args) 
         } catch (error) {
-            return message.channel.send('I need a song to play!')
+            // Check for an existing server queue
+            if (!serverQueue) {
+                return message.channel.send('I need a song to play!')
+            }
+
+            // TODO: Logic for playing videos if 'Add' is used before 'Play'.
+            // TODO: Logic for joining server.
+            // TODO: Maybe refactor the joining server into a function?
         };
         const song = {
                     title : songInfo.videoDetails.title,
@@ -73,7 +80,7 @@ module.exports = {
             serverQueue.songs.push(song);
             console.log(serverQueue.songs);
             return message.channel.send(`"${song.title}" has been added to the queue!`)
-        }
+        };
 
         // Recursive play function
         function play(guild, song) {
