@@ -30,6 +30,7 @@ module.exports = {
             serverQueue.songs = [];
             message.channel.send('Bye bye!');
             serverQueue.connection.dispatcher.end();
+            message.guild.voice.setChannel(null);
         }
     }
 }

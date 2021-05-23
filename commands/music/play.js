@@ -61,6 +61,7 @@ module.exports = {
             try {
                 const connection = await voiceChannel.join();
                 queueConstruct.connection = connection;
+
                 // Play song
                 play(message.guild, queueConstruct.songs[0])
             } catch (error) {
@@ -87,13 +88,20 @@ module.exports = {
 
             // Song dispatcher
             const dispatcher = serverQueue.connection.play(ytdl(song.url)).on("finish", () => {
+                // Change song on finish
                 serverQueue.songs.shift();
-                play(guild, serverQueue.songs[0]);
-                console.log(serverQueue.songs);
-                message.channel.send(`Now playing: "${song.title}"!`);
+                console.log(serverQueue.songs); 
             }).on("error", error => console.error(error));
+            
             dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
             serverQueue.textChannel.send(`Now playing: "${song.title}"!`);
+            // Placeholder
+            // if (song) {
+            //     play(guild, serverQueue.songs[0]);
+            //     serverQueue.textChannel.send(`Now playing: "${serverQueue.songs[0]}"!`)
+            //     } else {
+            //         serverQueue.textChannel.send('There are no songs left in the queue!')
+            //     };
           }
         }
     }
