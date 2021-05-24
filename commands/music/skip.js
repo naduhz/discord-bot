@@ -1,7 +1,9 @@
+const ytdl = require('ytdl-core');
+
 module.exports = {
     name: "skip",
     description: "Skips the current song to the next song in the queue.",
-    execute(message, args) {
+    async execute(message, args) {
         // Fetch globalqueue and serverqueue
         const globalQueue = message.client.queue;
         const serverQueue = globalQueue.get(message.guild.id);
@@ -15,5 +17,8 @@ module.exports = {
         if (!serverQueue.songs) {
             return message.channel.send("There are no songs for me to skip!")
         };
+
+        // Skip to the next song
+        serverQueue.connection.dispatcher.end();
+          }
     }
-}
