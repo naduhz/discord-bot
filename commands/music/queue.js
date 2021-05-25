@@ -6,9 +6,9 @@ module.exports = {
         const globalQueue = message.client.queue;
         const serverQueue = globalQueue.get(message.guild.id);
 
-        // CHeck if serverQueue
+        // Check if serverQueue
         if (!serverQueue) {
-            return message.channel.send("There are are no songs queued at the moment!")
+            return message.channel.send("There is no server queue at the moment!")
         };
 
         // Send a message with the queue

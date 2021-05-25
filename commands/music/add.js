@@ -1,4 +1,5 @@
 const ytdl = require('ytdl-core');
+const Discord = require('discord.js')
 
 module.exports = {
     name: "add",
@@ -46,11 +47,24 @@ module.exports = {
             // Push songs 
             queueConstruct.songs.push(song);
             console.log(queueConstruct.songs);
-            message.channel.send(`"${song.title}" has been added to the queue!`)
+            // TODO: Embed and beautify
+            const embed = new Discord.MessageEmbed()
+                // Set the title of the field
+                .setTitle('Now playing:')
+                .setColor(3447003)
+                .setDescription(`"${song.title}" has been added to the queue!`);
+            message.channel.send(embed);
+
         } else {
             serverQueue.songs.push(song);
             console.log(serverQueue.songs);
-            return message.channel.send(`"${song.title}" has been added to the queue!`)
+            // TODO: Embed and beautify
+            const embed = new Discord.MessageEmbed()
+                // Set the title of the field
+                .setTitle('Now playing:')
+                .setColor(3447003)
+                .setDescription(`"${song.title}" has been added to the queue!`);
+            message.channel.send(embed);
         }
     }
 }

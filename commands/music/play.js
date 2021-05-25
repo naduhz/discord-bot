@@ -63,6 +63,8 @@ module.exports = {
             queueConstruct.songs.push(song);
             console.log(queueConstruct.songs);
             message.channel.send(`"${song.title}" has been added to the queue!`)
+            // TODO: Embed and beautify
+            
             
             // Join user's voice channel
             try {
@@ -80,6 +82,8 @@ module.exports = {
             serverQueue.songs.push(song);
             console.log(serverQueue.songs);
             return message.channel.send(`"${song.title}" has been added to the queue!`)
+            // TODO: Embed and beautify
+            
         };
 
         // Recursive play function
@@ -91,7 +95,7 @@ module.exports = {
                 serverQueue.voiceChannel.leave();
                 globalQueue.delete(guild.id);
                 return;
-            }
+            };
 
             // Song dispatcher
             const dispatcher = serverQueue.connection.play(ytdl(song.url, {highWaterMark: 1 << 25})).on("finish", () => {
@@ -110,6 +114,8 @@ module.exports = {
 
             // Displays current track when song is changed.
             serverQueue.textChannel.send(`Now playing: "${song.title}"!`);
+            // TODO: Embed and beautify
+            
           }
         }
     }
