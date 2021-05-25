@@ -26,9 +26,13 @@ module.exports = {
         };
         
         // Get song info from ytdl
-        let songInfo;
+        let songInfo, song;
         try { 
-            songInfo = await ytdl.getInfo(args) 
+            songInfo = await ytdl.getInfo(args);
+            song = {
+                title: songInfo.videoDetails.title,
+                url: songInfo.videoDetails.video_url
+            }; 
         } catch (error) {
             // Check for an existing server queue
             if (!serverQueue) {
@@ -39,10 +43,6 @@ module.exports = {
             // TODO: Logic for joining server.
             // TODO: Maybe refactor the joining server into a function?
         };
-        const song = {
-                    title : songInfo.videoDetails.title,
-                    url: songInfo.videoDetails.video_url
-                };
 
         // Check for an existing server queue
         if (!serverQueue) {
@@ -79,11 +79,18 @@ module.exports = {
                 return message.channel.send(error);
             }
         } else {
-            serverQueue.songs.push(song);
-            console.log(serverQueue.songs);
-            return message.channel.send(`"${song.title}" has been added to the queue!`)
+            // TODO: Attempts at correcting logic for add before play
+            if (serverQueue.songs) {
+                return serverQueue.textChannel.send(`Now playing: "${song.title}"!`);
+            }
+            else {
+                serverQueue.songs.push(song);
+                console.log(serverQueue.songs);
+                message.channel.send(`"${song.title}" has been added to the queue!`);
+                play(message.guild, serverQueue.songs[0]);
+                return serverQueue.textChannel.send(`Now playing: "${song.title}"!`);
+            };
             // TODO: Embed and beautify
-            
         };
 
         // Recursive play function

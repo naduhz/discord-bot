@@ -26,7 +26,11 @@ module.exports = {
         };
         const song = {
                     title : songInfo.videoDetails.title,
-                    url: songInfo.videoDetails.video_url
+                    url: songInfo.videoDetails.video_url,
+                    thumbnail: songInfo.videoDetails.thumbnails[0].url,
+                    length: new Date (parseInt(songInfo.videoDetails.lengthSeconds) * 1000).toISOString().substr(11, 8),
+                    likes: songInfo.videoDetails.likes ,
+                    views: songInfo.videoDetails.viewCount
                 };
         
         // Check for an existing server queue
@@ -50,9 +54,14 @@ module.exports = {
             // TODO: Embed and beautify
             const embed = new Discord.MessageEmbed()
                 // Set the title of the field
-                .setTitle('Now playing:')
+                .setTitle('Song added:')
                 .setColor(3447003)
-                .setDescription(`"${song.title}" has been added to the queue!`);
+                .setDescription(`${song.title}`)
+                .setThumbnail(song.thumbnail)
+                .addFields(
+                    {name: 'Length:', value: `${song.length}`},
+                    {name: 'Likes:', value:`${song.likes}`},
+                    {name: 'Views:', value: `${song.views}`});
             message.channel.send(embed);
 
         } else {
@@ -61,9 +70,14 @@ module.exports = {
             // TODO: Embed and beautify
             const embed = new Discord.MessageEmbed()
                 // Set the title of the field
-                .setTitle('Now playing:')
+                .setTitle('Song added:')
                 .setColor(3447003)
-                .setDescription(`"${song.title}" has been added to the queue!`);
+                .setDescription(`${song.title}`)
+                .setThumbnail(song.thumbnail)
+                .addFields(
+                    {name: 'Length:', value: `${song.length}`},
+                    {name: 'Likes:', value:`${song.likes}`},
+                    {name: 'Views:', value: `${song.views}`});
             message.channel.send(embed);
         }
     }
