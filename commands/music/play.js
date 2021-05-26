@@ -38,10 +38,6 @@ module.exports = {
             if (!serverQueue) {
                 return message.channel.send('I need a song to play!')
             }
-
-            // TODO: Logic for playing videos if 'Add' is used before 'Play'.
-            // TODO: Logic for joining server.
-            // TODO: Maybe refactor the joining server into a function?
         };
 
         // Check for an existing server queue
@@ -79,16 +75,16 @@ module.exports = {
                 return message.channel.send(error);
             }
         } else {
-            // TODO: Attempts at correcting logic for add before play
+            // If add is used before play
             if (serverQueue.songs) {
-                return serverQueue.textChannel.send(`Now playing: "${song.title}"!`);
+                play(message.guild, serverQueue.songs[0]);
             }
+            // If there are no more songs left in the queue
             else {
                 serverQueue.songs.push(song);
                 console.log(serverQueue.songs);
                 message.channel.send(`"${song.title}" has been added to the queue!`);
                 play(message.guild, serverQueue.songs[0]);
-                return serverQueue.textChannel.send(`Now playing: "${song.title}"!`);
             };
             // TODO: Embed and beautify
         };

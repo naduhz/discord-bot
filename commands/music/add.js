@@ -17,6 +17,14 @@ module.exports = {
             )
         };
 
+        // Check bot has permissions
+        const permissions = voiceChannel.permissionsFor(message.client.user);
+        if (!permissions.has('SPEAK') || !permissions.has('CONNECT')) {
+            return message.channel.send(
+                'I need permissions to join and speak in your voice channel!'
+            )
+        };
+
         // Get song info from ytdl
         let songInfo;
         try { 
@@ -51,6 +59,17 @@ module.exports = {
             // Push songs 
             queueConstruct.songs.push(song);
             console.log(queueConstruct.songs);
+
+            // Join user's voice channel
+            try {
+                const connection = await voiceChannel.join();
+                queueConstruct.connection = connection;
+            } catch (error) {
+                console.log(error);
+                globalQueue.delete(message.guild.id);
+                return message.channel.send(error);
+            };
+
             // TODO: Embed and beautify
             const embed = new Discord.MessageEmbed()
                 // Set the title of the field
@@ -67,6 +86,19 @@ module.exports = {
         } else {
             serverQueue.songs.push(song);
             console.log(serverQueue.songs);
+
+            // Join voice channel if not in voice channel
+            if (!serverQueue.connection) {
+                try {
+                    const connection = await voiceChannel.join();
+                    queueConstruct.connection = connection;
+                } catch (error) {
+                    console.log(error);
+                    globalQueue.delete(message.guild.id);
+                    return message.channel.send(error);
+                };
+            };
+
             // TODO: Embed and beautify
             const embed = new Discord.MessageEmbed()
                 // Set the title of the field
