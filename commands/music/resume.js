@@ -2,9 +2,10 @@ module.exports = {
     name: "resume",
     description: "Plays the song being paused",
     async execute(message, args) {
-        // Fetch globalqueue and serverqueue
+        // Fetch globalqueue, serverqueue and dispatcher
         const globalQueue = message.client.queue;
         const serverQueue = globalQueue.get(message.guild.id);
+        const dispatcher = serverQueue.dispatcher;
 
         // Check if serverQueue
         if (!serverQueue) {
@@ -17,13 +18,12 @@ module.exports = {
         };
 
         // Check if there are paused songs
-        if (serverQueue.playing) {
-            return message.channel.send("A song is already playing!")
-        };
+        // if (serverQueue.playing) {
+        //     return message.channel.send("A song is already playing!")
+        // };
 
-        // Resume is not working, version of node does not seem to be the issue
-        serverQueue.connection.dispatcher.resume();
-        serverQueue.playing = true;
+        // Resume is not working
+        dispatcher.resume();
         message.channel.send("The song has been resumed!");
           }
     }

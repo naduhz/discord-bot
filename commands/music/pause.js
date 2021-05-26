@@ -2,9 +2,10 @@ module.exports = {
     name: "pause",
     description: "Pauses the song being played",
     async execute(message, args) {
-        // Fetch globalqueue and serverqueue
+        // Fetch globalqueue, serverqueue and dispatcher
         const globalQueue = message.client.queue;
         const serverQueue = globalQueue.get(message.guild.id);
+        const dispatcher = serverQueue.dispatcher;
 
         // Check if serverQueue
         if (!serverQueue) {
@@ -17,13 +18,12 @@ module.exports = {
         };
 
         // Check if there are playing songs
-        if (!serverQueue.playing) {
-            return message.channel.send("A song is already paused!")
-        };
+        // if (!serverQueue.playing) {
+        //     return message.channel.send("A song is already paused!")
+        // };
 
         // Pause the song
-        serverQueue.connection.dispatcher.pause();
-        serverQueue.playing = false;
+        dispatcher.pause(true);
         message.channel.send("The song has been paused!");
           }
     }

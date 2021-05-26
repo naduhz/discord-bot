@@ -49,7 +49,8 @@ module.exports = {
                 connection: null,
                 songs: [],
                 volume: 5,
-                playing: true
+                playing: true,
+                dispatcher: null
             };
             
             // Set the server queue into the global queue
@@ -101,24 +102,29 @@ module.exports = {
             };
 
             // Song dispatcher
-            const dispatcher = serverQueue.connection.play(ytdl(song.url, {highWaterMark: 1 << 25})).on("finish", () => {
+            const dispatcher = serverQueue.connection.play(ytdl(song.url, {highWaterMark: 1 << 25}));
+            serverQueue.dispatcher = dispatcher;
+            console.log(serverQueue.dispatcher);
+            dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
+
+             // Displays current track when song is changed.
+             serverQueue.textChannel.send(`Now playing: "${song.title}"!`);
+            // TODO: Embed and beautify
+
+            dispatcher.on("finish", () => {
                 // Change song on finish
                 serverQueue.songs.shift();
                 console.log(serverQueue.songs);
                 play(guild, serverQueue.songs[0]);
-            }).on("error", error => {
+            });
+            
+            dispatcher.on("error", error => {
                 console.error(error);
                 serverQueue.textChannel.send(`Sorry, "${song.title}" could not be played!!`);
                 serverQueue.songs.shift();
                 console.log(serverQueue.songs);
                 play(guild, serverQueue.songs[0]);
             });
-            dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
-
-            // Displays current track when song is changed.
-            serverQueue.textChannel.send(`Now playing: "${song.title}"!`);
-            // TODO: Embed and beautify
-            
           }
         }
     }
