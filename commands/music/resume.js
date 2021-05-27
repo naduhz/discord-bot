@@ -18,11 +18,11 @@ module.exports = {
         };
 
         // Check if there are paused songs
-        // if (serverQueue.playing) {
-        //     return message.channel.send("A song is already playing!")
-        // };
+        if (!dispatcher.paused) {
+            return message.channel.send("A song is already playing!")
+        };
 
-        // Resume is not working
+        // Resume
         dispatcher.resume();
         message.channel.send("The song has been resumed!");
           }

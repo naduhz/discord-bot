@@ -104,7 +104,6 @@ module.exports = {
             // Song dispatcher
             const dispatcher = serverQueue.connection.play(ytdl(song.url, {highWaterMark: 1 << 25}));
             serverQueue.dispatcher = dispatcher;
-            console.log(serverQueue.dispatcher);
             dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
 
              // Displays current track when song is changed.
