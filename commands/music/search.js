@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
 const ytsr = require('ytsr');
-const ytdl = require('ytdl-core');
 
 module.exports = {
     name: 'search',
@@ -33,15 +32,22 @@ module.exports = {
         message.channel.send(embed);
 
 
-        // TODO: After search actions
+        // Add to queue from search
         message.client.on('message', message => {
             if (message.content.length < 3 && parseInt(message.content) <= 10) {
                 // Fetch globalqueue and serverqueue
                 const globalQueue = message.client.queue;
                 const serverQueue = globalQueue.get(message.guild.id);
 
-                // Check bot has permissions
+                // Check user in voice channel
                 const voiceChannel = message.member.voice.channel;
+                if (!voiceChannel) {
+                    return message.channel.send(
+                        'You need to be in a voice channel for me to add music!'
+                    )
+                };
+
+                // Check bot has permissions
                 const permissions = voiceChannel.permissionsFor(message.client.user);
                 if (!permissions.has('SPEAK') || !permissions.has('CONNECT')) {
                     return message.channel.send(
@@ -49,21 +55,14 @@ module.exports = {
                     )
                 };
 
-                // Get song info from ytdl
-                let songInfo;
-                try { 
-                    songInfo = ytdl.getInfo(searchResults.items[parseInt(message.content)].url);
-                } catch (error) {
-                    console.error(error);
-                };
+                // Get song info
                 const song = {
-                            title : songInfo.videoDetails.title,
-                            url: songInfo.videoDetails.video_url,
-                            thumbnail: songInfo.videoDetails.thumbnails[0].url,
-                            length: new Date (parseInt(songInfo.videoDetails.lengthSeconds) * 1000).toISOString().substr(11, 8)
+                            title : searchResults.items[parseInt(message.content) - 1].title,
+                            url: searchResults.items[parseInt(message.content) - 1].url,
+                            thumbnail: searchResults.items[parseInt(message.content) - 1].bestThumbnail.url,
+                            length: searchResults.items[parseInt(message.content) - 1].duration
                         };
 
-                // Add to queue from search
                 // Check for an existing server queue
                 if (!serverQueue) {
                     // Instantiate a server queue
@@ -85,7 +84,7 @@ module.exports = {
 
                     // Join user's voice channel
                     try {
-                        const connection = voiceChannel.join();
+                        let connection = voiceChannel.join();
                         queueConstruct.connection = connection;
                     } catch (error) {
                         console.log(error);
@@ -103,7 +102,6 @@ module.exports = {
                         .addFields(
                             {name: 'Length:', value: `${song.length}`})
                     message.channel.send(embed);
-
                 } else {
                     serverQueue.songs.push(song);
                     console.log(serverQueue.songs);
@@ -111,8 +109,8 @@ module.exports = {
                     // Join voice channel if not in voice channel
                     if (!serverQueue.connection) {
                         try {
-                            const connection = voiceChannel.join();
-                            queueConstruct.connection = connection;
+                            let connection = voiceChannel.join();
+                            serverQueue.connection = connection;
                         } catch (error) {
                             console.log(error);
                             globalQueue.delete(message.guild.id);
@@ -132,6 +130,7 @@ module.exports = {
                  message.channel.send(embed);
                     }
         };
-        })
+        }
+        )
     }
 }

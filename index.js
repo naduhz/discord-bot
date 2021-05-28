@@ -35,19 +35,7 @@ client.once('disconnect', () => {
 // Client reactions on message
 client.on('message', message => {
 
-    if (!message.content.startsWith(prefix) || message.author.bot) {
-        if (message.content.length < 3 && parseInt(message.content) <= 10) {
-            try {
-                command.execute(message, args);
-            } catch (error) {
-                message.reply('I could not execute the command!');
-                console.error(error);
-            }
-        }
-        else {
-            return;
-        }
-    };
+    if (!message.content.startsWith(prefix) || message.author.bot) return;
 
     const args = message.content.slice(prefix.length).trim().split(/ +/);
     const commandName = args.shift().toLowerCase();
