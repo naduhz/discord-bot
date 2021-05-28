@@ -68,9 +68,8 @@ module.exports = {
             
             dispatcher.on("error", error => {
                 console.error(error);
-                serverQueue.textChannel.send(`Sorry, "${song.title}" could not be played!!`);
+                serverQueue.textChannel.send(`Sorry, "${song.title}" could not be played! Let me play the next song for you.`);
                 serverQueue.songs.shift();
-                console.log(serverQueue.songs);
                 play(guild, serverQueue.songs[0]);
             });
           }
@@ -109,7 +108,6 @@ module.exports = {
                 
                 // Push songs 
                 queueConstruct.songs.push(song);
-                console.log(queueConstruct.songs);
                 const embed = new Discord.MessageEmbed()
                             // Set the title of the field
                             .setTitle('Song added!')
@@ -128,7 +126,7 @@ module.exports = {
                     // Play song
                     play(message.guild, queueConstruct.songs[0])
                 } catch (error) {
-                    console.log(error);
+                    console.error(error);
                     globalQueue.delete(message.guild.id);
                     return message.channel.send(error);
                 }
@@ -136,7 +134,6 @@ module.exports = {
                 // If add is used before play
                 if (serverQueue.songs) {
                     serverQueue.songs.push(song);
-                    console.log(serverQueue.songs);
                     const embed = new Discord.MessageEmbed()
                             // Set the title of the field
                             .setTitle('Song added!')
@@ -150,7 +147,6 @@ module.exports = {
                 // If there are no more songs left in the queue
                 else {
                     serverQueue.songs.push(song);
-                    console.log(serverQueue.songs);
                     const embed = new Discord.MessageEmbed()
                             // Set the title of the field
                             .setTitle('Song added!')

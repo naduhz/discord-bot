@@ -82,14 +82,13 @@ module.exports = {
                         
                         // Push songs 
                         queueConstruct.songs.push(song);
-                        console.log(queueConstruct.songs);
 
                         // Join user's voice channel
                         try {
                             const connection = await voiceChannel.join();
                             queueConstruct.connection = connection;
                         } catch (error) {
-                            console.log(error);
+                            console.error(error);
                             globalQueue.delete(message.guild.id);
                             return message.channel.send(error);
                         };
@@ -105,7 +104,6 @@ module.exports = {
                         message.channel.send(embed);
                     } else {
                         serverQueue.songs.push(song);
-                        console.log(serverQueue.songs);
 
                         // Join voice channel if not in voice channel
                         if (!serverQueue.connection) {
@@ -113,7 +111,7 @@ module.exports = {
                                 const connection = await voiceChannel.join();
                                 serverQueue.connection = connection;
                             } catch (error) {
-                                console.log(error);
+                                console.error(error);
                                 globalQueue.delete(message.guild.id);
                                 return message.channel.send(error);
                             };
