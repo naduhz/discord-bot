@@ -34,8 +34,20 @@ module.exports = {
 
 
         // TODO: After search actions
-        message.member.client.on('message', message => {
+        message.client.on('message', message => {
             if (message.content.length < 3 && parseInt(message.content) <= 10) {
+                // Fetch globalqueue and serverqueue
+                const globalQueue = message.client.queue;
+                const serverQueue = globalQueue.get(message.guild.id);
+
+                // Check bot has permissions
+                const voiceChannel = message.member.voice.channel;
+                const permissions = voiceChannel.permissionsFor(message.client.user);
+                if (!permissions.has('SPEAK') || !permissions.has('CONNECT')) {
+                    return message.channel.send(
+                        'I need permissions to join and speak in your voice channel!'
+                    )
+                };
 
                 // Get song info from ytdl
                 let songInfo;
@@ -119,8 +131,6 @@ module.exports = {
                          {name: 'Length:', value: `${song.length}`})
                  message.channel.send(embed);
                     }
-
-                // TODO: Play from search
         };
         })
     }

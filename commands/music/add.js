@@ -77,9 +77,7 @@ module.exports = {
                 .setDescription(`${song.title}`)
                 .setThumbnail(song.thumbnail)
                 .addFields(
-                    {name: 'Length:', value: `${song.length}`},
-                    {name: 'Likes:', value:`${song.likes}`},
-                    {name: 'Views:', value: `${song.views}`});
+                    {name: 'Length:', value: `${song.length}`})
             message.channel.send(embed);
 
         } else {
@@ -106,9 +104,7 @@ module.exports = {
                 .setDescription(`${song.title}`)
                 .setThumbnail(song.thumbnail)
                 .addFields(
-                    {name: 'Length:', value: `${song.length}`},
-                    {name: 'Likes:', value:`${song.likes}`},
-                    {name: 'Views:', value: `${song.views}`});
+                    {name: 'Length:', value: `${song.length}`})
             message.channel.send(embed);
         }
     }
