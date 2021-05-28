@@ -31,9 +31,8 @@ module.exports = {
         
         message.channel.send(embed);
 
-
         // Add to queue from search
-        message.client.on('message', message => {
+        const listener = async message => {
             if (message.content.length < 3 && parseInt(message.content) <= 10) {
                 // Fetch globalqueue and serverqueue
                 const globalQueue = message.client.queue;
@@ -84,7 +83,7 @@ module.exports = {
 
                     // Join user's voice channel
                     try {
-                        let connection = voiceChannel.join();
+                        const connection = await voiceChannel.join();
                         queueConstruct.connection = connection;
                     } catch (error) {
                         console.log(error);
@@ -109,7 +108,7 @@ module.exports = {
                     // Join voice channel if not in voice channel
                     if (!serverQueue.connection) {
                         try {
-                            let connection = voiceChannel.join();
+                            const connection = await voiceChannel.join();
                             serverQueue.connection = connection;
                         } catch (error) {
                             console.log(error);
@@ -128,9 +127,9 @@ module.exports = {
                      .addFields(
                          {name: 'Length:', value: `${song.length}`})
                  message.channel.send(embed);
-                    }
-        };
-        }
-        )
-    }
-}
+                    }}};
+
+        message.client.on('message', listener);
+        message.client.setTimeout(() => message.client.removeListener('message', listener), 3000);
+                }
+            }
