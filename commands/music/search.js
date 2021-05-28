@@ -15,9 +15,9 @@ module.exports = {
         let desc = '';
         for (i = 0; i < searchResults.items.length; i++) {
             if (searchResults.items[i].title.length > 40) {
-                desc += `${i+1} [${searchResults.items[i].title.substring(0, 37)}...](${searchResults.items[i].url})\n`
+                desc += `${i+1} [${searchResults.items[i].title.substring(0, 37).replace(/\[/g, "\uFF3B").replace(/\]/g, "\uFF3D")}...](${searchResults.items[i].url})\n`
             } else {
-                desc += `${i+1} [${searchResults.items[i].title.substring(0, 40)}](${searchResults.items[i].url})\n`
+                desc += `${i+1} [${searchResults.items[i].title.substring(0, 40).replace(/\[/g, "\uFF3B").replace(/\]/g, "\uFF3D")}](${searchResults.items[i].url})\n`
             }
         };
 
@@ -91,7 +91,6 @@ module.exports = {
                         return message.channel.send(error);
                     };
 
-                    // TODO: Embed and beautify
                     const embed = new Discord.MessageEmbed()
                         // Set the title of the field
                         .setTitle('Song added:')
@@ -117,7 +116,6 @@ module.exports = {
                         };
                     };
 
-                     // TODO: Embed and beautify
                      const embed = new Discord.MessageEmbed()
                      // Set the title of the field
                      .setTitle('Song added:')

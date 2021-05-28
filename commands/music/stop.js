@@ -1,3 +1,5 @@
+const Discord = require('discord.js');
+
 module.exports = {
     name: "stop",
     description: "Stops the music player and removes all songs from the queue.",
@@ -22,13 +24,17 @@ module.exports = {
         } else {
             // Check for song in queue
             if (!serverQueue) {
-                message.channel.send('There is no song for me to stop, bye bye!');
+                const embed = new Discord.MessageEmbed()
+                    // Set the title of the field
+                    .setTitle('There are no songs for me to stop!')
+                    .setColor(3447003)
+                    .setDescription('Bye bye!')
+                    message.channel.send(embed);
                 message.guild.voice.setChannel(null);
                 return;
             }
             // Remove songs from queue, stop connecting to voice channel
             serverQueue.songs = [];
-            message.channel.send('Bye bye!');
             serverQueue.connection.dispatcher.end();
             message.guild.voice.setChannel(null);
         }

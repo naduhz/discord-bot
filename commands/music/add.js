@@ -1,4 +1,4 @@
-const ytdl = require('ytdl-core');
+const ytsr = require('ytsr');
 const Discord = require('discord.js')
 
 module.exports = {
@@ -25,20 +25,18 @@ module.exports = {
             )
         };
 
-        // Get song info from ytdl
-        let songInfo;
-        try { 
-            songInfo = await ytdl.getInfo(args) 
-        } catch (error) {
-            console.error(error);
-            return message.channel.send('I need a song to play!')
-        };
+        const searchString = args.join(' ')
+        const filters = await ytsr.getFilters(searchString);
+        const filterVideo = filters.get('Type').get('Video');
+        const searchResult = await ytsr(filterVideo.url, {limit: 1});
+        
+        // Get song info from ytsr
         const song = {
-                    title : songInfo.videoDetails.title,
-                    url: songInfo.videoDetails.video_url,
-                    thumbnail: songInfo.videoDetails.thumbnails[0].url,
-                    length: new Date (parseInt(songInfo.videoDetails.lengthSeconds) * 1000).toISOString().substr(11, 8)
-                };
+            title : searchResult.items[0].title,
+            url: searchResult.items[0].url,
+            thumbnail: searchResult.items[0].bestThumbnail.url,
+            length: searchResult.items[0].duration
+        };
         
         // Check for an existing server queue
         if (!serverQueue) {
@@ -69,10 +67,8 @@ module.exports = {
                 return message.channel.send(error);
             };
 
-            // TODO: Embed and beautify
             const embed = new Discord.MessageEmbed()
-                // Set the title of the field
-                .setTitle('Song added:')
+                .setTitle('Song added!')
                 .setColor(3447003)
                 .setDescription(`${song.title}`)
                 .setThumbnail(song.thumbnail)
@@ -96,10 +92,9 @@ module.exports = {
                 };
             };
 
-            // TODO: Embed and beautify
             const embed = new Discord.MessageEmbed()
                 // Set the title of the field
-                .setTitle('Song added:')
+                .setTitle('Song added!')
                 .setColor(3447003)
                 .setDescription(`${song.title}`)
                 .setThumbnail(song.thumbnail)
