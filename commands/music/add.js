@@ -30,15 +30,14 @@ module.exports = {
         try { 
             songInfo = await ytdl.getInfo(args) 
         } catch (error) {
+            console.error(error);
             return message.channel.send('I need a song to play!')
         };
         const song = {
                     title : songInfo.videoDetails.title,
                     url: songInfo.videoDetails.video_url,
                     thumbnail: songInfo.videoDetails.thumbnails[0].url,
-                    length: new Date (parseInt(songInfo.videoDetails.lengthSeconds) * 1000).toISOString().substr(11, 8),
-                    likes: songInfo.videoDetails.likes ,
-                    views: songInfo.videoDetails.viewCount
+                    length: new Date (parseInt(songInfo.videoDetails.lengthSeconds) * 1000).toISOString().substr(11, 8)
                 };
         
         // Check for an existing server queue
