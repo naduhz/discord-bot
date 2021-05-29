@@ -1,6 +1,10 @@
 const {imgur_client_id} = require('../../../config.json');
 const axios = require('axios');
 
+// module.exports = {
+//     name: 'imgurSearchRequests',
+//     description: 'Fetches from imgur',
+//     async execute() {
 const searchParameters = {
     queryString: 'q_all=saber',
     type: 'q_type=gif',
@@ -16,6 +20,8 @@ const config = {
 };
 
 axios(config)
-    .then(response => console.log(JSON.stringify(response.data)))
-    .then(result => console.log(result))
-    .catch(error => console.log('error', error));
+.then(response => console.log(response.data))
+.then(result => console.log(result))
+.catch(error => console.log('error', error));
+//     }
+// }
