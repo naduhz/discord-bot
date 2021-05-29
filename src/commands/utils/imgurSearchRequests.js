@@ -1,20 +1,24 @@
 const imgur_client_id = require('../../../config.json');
+const Headers = require('header')
 
-const HEADER = new Headers();
-HEADER.append('Authorization', `Client-ID {${imgur_client_id}}`);
+const header = new Headers();
+header.append('Authorization', `Client-ID {${imgur_client_id}}`);
 
-const formdata = new FormData();
-formdata 
+const formdata = {
+    sort: 'top',
+    window: 'all',
+    page: '1',
+    queryString: ''
+} 
 
-let requestOptions = {
+requestOptions = {
     method: 'GET',
-    headers: HEADER,
+    headers: header,
     body: formdata,
     redirect: 'follow'
 };
 
-let sort, window, page, queryString;
-const url = `https://api.imgur.com/3/gallery/search/${sort}/${window}/${page}?q=${queryString}`;
+const url = `https://api.imgur.com/3/gallery/search/${formdata.sort}/${formdata.window}/${formdata.page}?q=${formdata.queryString}`;
 
 let response = await fetch(url, requestOptions)
     .then(response => response.text())
