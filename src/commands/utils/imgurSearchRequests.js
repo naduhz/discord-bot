@@ -1,26 +1,21 @@
-const imgur_client_id = require('../../../config.json');
-const Headers = require('header')
+const {imgur_client_id} = require('../../../config.json');
+const axios = require('axios');
 
-const header = new Headers();
-header.append('Authorization', `Client-ID {${imgur_client_id}}`);
+const searchParameters = {
+    queryString: 'q_all=saber',
+    type: 'q_type=gif',
+    tags: 'q_type=anime'
+}
 
-const formdata = {
-    sort: 'top',
-    window: 'all',
-    page: '1',
-    queryString: ''
-} 
+const url = `https://api.imgur.com/3/gallery/search/top/all?${searchParameters.queryString}`;
 
-requestOptions = {
-    method: 'GET',
-    headers: header,
-    body: formdata,
-    redirect: 'follow'
+const config = {
+    method: 'get',
+    url: url,
+    headers: {'Authorization' : `Client-ID ${imgur_client_id}`}
 };
 
-const url = `https://api.imgur.com/3/gallery/search/${formdata.sort}/${formdata.window}/${formdata.page}?q=${formdata.queryString}`;
-
-let response = await fetch(url, requestOptions)
-    .then(response => response.text())
+axios(config)
+    .then(response => console.log(JSON.stringify(response.data)))
     .then(result => console.log(result))
     .catch(error => console.log('error', error));
