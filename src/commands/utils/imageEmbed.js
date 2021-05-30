@@ -1,11 +1,9 @@
 const Discord = require('discord.js');
 
-
-
 module.exports = function imageEmbed(imageLink) {
-                    const embed = new Discord.MessageEmbed()
+                    const baseEmbed = new Discord.MessageEmbed()
                     .setColor(3447003)
                     .setImage(imageLink)
 
-                    return embed;
+                    return baseEmbed;
 }

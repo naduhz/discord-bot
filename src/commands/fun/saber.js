@@ -1,11 +1,10 @@
 const imgurSearchRequests = require('../utils/imgurSearchRequests');
 const SearchParameter = require('../utils/searchParameterConstructor')
 const imageEmbed = require('../utils/imageEmbed')
-const Discord = require('discord.js')
 
 module.exports = {
     name: 'saber',
-    description: 'Fetches Saber images/animations off imgur',
+    description: 'Fetches Saber animations off imgur',
 
     async execute(message, args) {
         const searchParameters = new SearchParameter('saber', 'anime', 'gif');

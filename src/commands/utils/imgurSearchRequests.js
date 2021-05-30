@@ -10,7 +10,6 @@ module.exports = async function imgurSearchRequests(searchParameters) {
                                     };
 
                                     const response = await axios(config);
-                                    const images = response.data.data;
-
-                                    return images;
+                                    const results = response.data.data;
+                                    return results;
                                     }
