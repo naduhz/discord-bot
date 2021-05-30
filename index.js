@@ -1,7 +1,7 @@
 // Imports
 const fs = require('fs')
 const Discord = require('discord.js');
-const commandFolder = fs.readdirSync('./commands')
+const commandFolder = fs.readdirSync('./src/commands')
 const { prefix, token, init_channel_id } = require('./config.json');
 
 // Instantiation of client, commands and queue
@@ -11,9 +11,9 @@ client.queue = new Discord.Collection();
 
 // Read commands
 for (const folder of commandFolder) {
-    const commandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'));
+    const commandFiles = fs.readdirSync(`./src/commands/${folder}`).filter(file => file.endsWith('.js'));
     for (const file of commandFiles) {
-        const command = require(`./commands/${folder}/${file}`);
+        const command = require(`./src/commands/${folder}/${file}`);
         client.commands.set(command.name, command);
     }
 }
