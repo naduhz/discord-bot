@@ -19,7 +19,8 @@ module.exports = {
                 return message.channel.send(embed)
             }
             else {
-                const embed = imageEmbed(randomAlbum.images[Math.floor(Math.random() * randomAlbum.images.length)].link);
+                const randomImageLink = randomAlbum.images[Math.floor(Math.random() * randomAlbum.images.length)].link
+                const embed = imageEmbed(randomImageLink);
                 embed.description = `${message.author.toString()} has been blessed by Saber's presence!`
                 return message.channel.send(embed)
             }
