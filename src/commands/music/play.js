@@ -88,7 +88,7 @@ module.exports = {
       // Check for an existing server queue
       if (!serverQueue) {
         // Instantiate a server queue
-        const newQueue = await createQueue(message);
+        const newQueue = createQueue(message);
 
         // Set the server queue into the global queue
         globalQueue.set(message.guild.id, newQueue);
