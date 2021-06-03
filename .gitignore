@@ -1,5 +1,6 @@
 # Keys
 config.json
+.env
 
 # Node modules
 /node_modules
