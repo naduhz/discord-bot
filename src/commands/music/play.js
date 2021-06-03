@@ -1,11 +1,8 @@
-const ytdl = require("ytdl-core");
 const ytsr = require("ytsr");
-const {
-  songAddedEmbed,
-  nowPlayingEmbed,
-  stopEmbed,
-} = require("../utils/embeds");
+const { songAddedEmbed } = require("../utils/embeds");
 const { createQueue } = require("../utils/createQueue");
+const { joinVoiceChannel } = require("../utils/joinVoiceChannel");
+const { playSong } = require("../utils/playSong");
 
 module.exports = {
   name: "play",
@@ -32,52 +29,14 @@ module.exports = {
       );
     }
 
-    // Recursive play function
-    function play(guild, song) {
-      // If serverQueue is empty, leave the voice channel and delete the queue.
-      const serverQueue = globalQueue.get(guild.id);
-      if (!song) {
-        message.channel.send(stopEmbed());
-        serverQueue.voiceChannel.leave();
-        globalQueue.delete(guild.id);
-        return;
-      }
-
-      // Song dispatcher
-      const dispatcher = serverQueue.connection.play(
-        ytdl(song.url, { highWaterMark: 1 << 25 })
-      );
-      serverQueue.dispatcher = dispatcher;
-      dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
-
-      // Displays current track when song is changed.
-      serverQueue.textChannel.send(nowPlayingEmbed(song));
-
-      dispatcher.on("finish", () => {
-        // Change song on finish
-        serverQueue.songs.shift();
-        play(guild, serverQueue.songs[0]);
-      });
-
-      dispatcher.on("error", (error) => {
-        console.error(error);
-        serverQueue.textChannel.send(
-          `Sorry, "${song.title}" could not be played! Let me play the next song for you.`
-        );
-        serverQueue.songs.shift();
-        play(guild, serverQueue.songs[0]);
-      });
-    }
-
     if (args == "") {
-      play(message.guild, serverQueue.songs[0]);
+      playSong(message.guild, serverQueue.songs[0]);
     } else {
+      // Get song info from ytsr
       const searchString = args.join(" ");
       const filters = await ytsr.getFilters(searchString);
       const filterVideo = filters.get("Type").get("Video");
       const searchResult = await ytsr(filterVideo.url, { limit: 1 });
-
-      // Get song info from ytsr
       const song = {
         title: searchResult.items[0].title,
         url: searchResult.items[0].url,
@@ -85,42 +44,15 @@ module.exports = {
         length: searchResult.items[0].duration,
       };
 
-      // Check for an existing server queue
       if (!serverQueue) {
-        // Instantiate a server queue
         const newQueue = createQueue(message);
-
-        // Set the server queue into the global queue
         globalQueue.set(message.guild.id, newQueue);
-
-        // Push songs
+        await joinVoiceChannel(message);
         newQueue.songs.push(song);
-        message.channel.send(songAddedEmbed(song));
-
-        // Join user's voice channel
-        try {
-          const connection = await voiceChannel.join();
-          newQueue.connection = connection;
-
-          // Play song
-          play(message.guild, newQueue.songs[0]);
-        } catch (error) {
-          console.error(error);
-          globalQueue.delete(message.guild.id);
-          return message.channel.send(error);
-        }
+        playSong(message.guild, newQueue.songs[0]);
       } else {
-        // If add is used before play
-        if (serverQueue.songs) {
-          serverQueue.songs.push(song);
-          message.channel.send(songAddedEmbed(song));
-        }
-        // If there are no more songs left in the queue
-        else {
-          serverQueue.songs.push(song);
-          message.channel.send(songAddedEmbed(song));
-          play(message.guild, serverQueue.songs[0]);
-        }
+        serverQueue.songs.push(song);
+        message.channel.send(songAddedEmbed(song));
       }
     }
   },

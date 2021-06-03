@@ -1,6 +1,7 @@
 const ytsr = require("ytsr");
 const { songAddedEmbed } = require("../utils/embeds");
 const { createQueue } = require("../utils/createQueue");
+const { joinVoiceChannel } = require("../utils/joinVoiceChannel");
 
 module.exports = {
   name: "add",
@@ -39,43 +40,17 @@ module.exports = {
       length: searchResult.items[0].duration,
     };
 
-    // Check for an existing server queue
     if (!serverQueue) {
-      // Instantiate a server queue
-      const newQueue = await createQueue(message);
-
-      // Set the server queue into the global queue
+      const newQueue = createQueue(message);
       globalQueue.set(message.guild.id, newQueue);
-
-      // Push songs
+      await joinVoiceChannel(message);
       newQueue.songs.push(song);
-
-      // Join user's voice channel
-      try {
-        const connection = await voiceChannel.join();
-        newQueue.connection = connection;
-      } catch (error) {
-        console.error(error);
-        globalQueue.delete(message.guild.id);
-        return message.channel.send(error);
-      }
-
       message.channel.send(songAddedEmbed(song));
     } else {
-      serverQueue.songs.push(song);
-
-      // Join voice channel if not in voice channel
       if (!serverQueue.connection) {
-        try {
-          const connection = await voiceChannel.join();
-          queueConstruct.connection = connection;
-        } catch (error) {
-          console.error(error);
-          globalQueue.delete(message.guild.id);
-          return message.channel.send(error);
-        }
+        joinVoiceChannel(message);
       }
-
+      serverQueue.songs.push(song);
       message.channel.send(songAddedEmbed(song));
     }
   },
