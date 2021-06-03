@@ -2,10 +2,6 @@
 const fs = require("fs");
 const Discord = require("discord.js");
 const commandFolder = fs.readdirSync("./src/commands");
-<<<<<<< HEAD
-=======
-
->>>>>>> 3741d88e9cd325178aaf3e5b951d597a90af0c66
 const dotenv = require("dotenv");
 dotenv.config();
 const prefix = process.env.PREFIX;
