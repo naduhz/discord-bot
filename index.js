@@ -5,6 +5,7 @@ const commandFolder = fs.readdirSync("./src/commands");
 
 const dotenv = require("dotenv");
 dotenv.config();
+const prefix = process.env.PREFIX;
 
 // Instantiation of client, commands and queue
 const client = new Discord.Client();
