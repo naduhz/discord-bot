@@ -1,5 +1,4 @@
-# Environment and keys
-.env
+# Keys
 config.json
 
 # Node modules
