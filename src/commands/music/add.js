@@ -7,7 +7,6 @@ module.exports = {
   name: "add",
   description: "Add a song to the queue.",
   async execute(message, args) {
-    // Fetch globalqueue and serverqueue
     const globalQueue = message.client.queue;
     const serverQueue = globalQueue.get(message.guild.id);
 
@@ -27,6 +26,7 @@ module.exports = {
       );
     }
 
+    // Parse search
     const searchString = args.join(" ");
     const filters = await ytsr.getFilters(searchString);
     const filterVideo = filters.get("Type").get("Video");

@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const ytsr = require("ytsr");
 
 const { songAddedEmbed } = require("../../utils/embeds");
-const { createQueue } = require("../../utils/musicUtils");
+const { createQueue, joinVoiceChannel } = require("../../utils/musicUtils");
 
 module.exports = {
   name: "search",
@@ -12,21 +12,22 @@ module.exports = {
     if (args == "") {
       return message.channel.send("I need something to search for!");
     } else {
+      // Parse search
       const searchString = args.join(" ");
-
       const filters = await ytsr.getFilters(searchString);
       const filterVideo = filters.get("Type").get("Video");
       const searchResults = await ytsr(filterVideo.url, { limit: 10 });
 
-      let desc = "";
+      // Setting the searchEmbedDescription
+      let searchEmbedDescription = "";
       for (i = 0; i < searchResults.items.length; i++) {
         if (searchResults.items[i].title.length > 40) {
-          desc += `${i + 1} [${searchResults.items[i].title
+          searchEmbedDescription += `${i + 1} [${searchResults.items[i].title
             .substring(0, 37)
             .replace(/\[/g, "\uFF3B")
             .replace(/\]/g, "\uFF3D")}...](${searchResults.items[i].url})\n`;
         } else {
-          desc += `${i + 1} [${searchResults.items[i].title
+          searchEmbedDescription += `${i + 1} [${searchResults.items[i].title
             .substring(0, 40)
             .replace(/\[/g, "\uFF3B")
             .replace(/\]/g, "\uFF3D")}](${searchResults.items[i].url})\n`;
@@ -36,20 +37,17 @@ module.exports = {
       const searchEmbed = new Discord.MessageEmbed()
         .setTitle(`Results for "${searchString}":`)
         .setColor(3447003)
-        .setDescription(desc)
+        .setDescription(searchEmbedDescription)
         .setThumbnail(searchResults.items[0].bestThumbnail.url)
         .setFooter("Type the number of the song to add it to the queue.");
-
       message.channel.send(searchEmbed);
 
       // Add to queue from search
       const listener = async (message) => {
         if (message.content.length < 3 && parseInt(message.content) <= 10) {
-          // Fetch globalqueue and serverqueue
           const globalQueue = message.client.queue;
           const serverQueue = globalQueue.get(message.guild.id);
 
-          // Check user in voice channel
           const voiceChannel = message.member.voice.channel;
           if (!voiceChannel) {
             return message.channel.send(
@@ -57,7 +55,6 @@ module.exports = {
             );
           }
 
-          // Check bot has permissions
           const permissions = voiceChannel.permissionsFor(message.client.user);
           if (!permissions.has("SPEAK") || !permissions.has("CONNECT")) {
             return message.channel.send(
@@ -75,43 +72,17 @@ module.exports = {
             length: searchResults.items[parseInt(message.content) - 1].duration,
           };
 
-          // Check for an existing server queue
           if (!serverQueue) {
-            // Instantiate a server queue
-            const newQueue = await createQueue(message);
-
-            // Set the server queue into the global queue
+            const newQueue = createQueue(message);
             globalQueue.set(message.guild.id, newQueue);
-
-            // Push songs
             newQueue.songs.push(song);
-
-            // Join user's voice channel
-            try {
-              const connection = await voiceChannel.join();
-              newQueue.connection = connection;
-            } catch (error) {
-              console.error(error);
-              globalQueue.delete(message.guild.id);
-              return message.channel.send(error);
-            }
-
+            await joinVoiceChannel(message);
             message.channel.send(songAddedEmbed(song));
           } else {
-            serverQueue.songs.push(song);
-
-            // Join voice channel if not in voice channel
             if (!serverQueue.connection) {
-              try {
-                const connection = await voiceChannel.join();
-                serverQueue.connection = connection;
-              } catch (error) {
-                console.error(error);
-                globalQueue.delete(message.guild.id);
-                return message.channel.send(error);
-              }
+              await joinVoiceChannel(message);
             }
-
+            serverQueue.songs.push(song);
             message.channel.send(songAddedEmbed(song));
           }
         }

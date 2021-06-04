@@ -12,7 +12,6 @@ module.exports = {
   description: "Start playing from the queue.",
 
   async execute(message, args) {
-    // Fetch globalqueue and serverqueue
     const globalQueue = message.client.queue;
     const serverQueue = globalQueue.get(message.guild.id);
 
@@ -35,11 +34,13 @@ module.exports = {
     if (args == "") {
       playSong(message.guild, serverQueue.songs[0]);
     } else {
-      // Get song info from ytsr
+      // Parse search
       const searchString = args.join(" ");
       const filters = await ytsr.getFilters(searchString);
       const filterVideo = filters.get("Type").get("Video");
       const searchResult = await ytsr(filterVideo.url, { limit: 1 });
+
+      // Get song info from ytsr
       const song = {
         title: searchResult.items[0].title,
         url: searchResult.items[0].url,
