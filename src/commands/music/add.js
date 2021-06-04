@@ -1,7 +1,7 @@
 const ytsr = require("ytsr");
-const { songAddedEmbed } = require("../utils/embeds");
-const { createQueue } = require("../utils/createQueue");
-const { joinVoiceChannel } = require("../utils/joinVoiceChannel");
+
+const { createQueue, joinVoiceChannel } = require("../../utils/musicUtils");
+const { songAddedEmbed } = require("../../utils/embeds");
 
 module.exports = {
   name: "add",

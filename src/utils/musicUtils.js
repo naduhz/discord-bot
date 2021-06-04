@@ -1,7 +1,88 @@
-const { msToTime } = require("./msToTime");
+const ytdl = require("ytdl-core");
+
+const { nowPlayingEmbed, stopEmbed } = require("./embeds");
+
+// Stream dispatcher time converter
+const msToTime = (duration) => {
+  let seconds = Math.floor((duration / 1000) % 60),
+    minutes = Math.floor((duration / (1000 * 60)) % 60),
+    hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+
+  hours = hours < 10 ? "0" + hours : hours;
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  seconds = seconds < 10 ? "0" + seconds : seconds;
+
+  if (hours > 0) {
+    return hours + ":" + minutes + ":" + seconds;
+  } else {
+    return minutes + ":" + seconds;
+  }
+};
+
+// Recursive play function
+const playSong = (guild, song) => {
+  const globalQueue = guild.client.queue;
+  const serverQueue = globalQueue.get(guild.id);
+
+  if (!song) {
+    serverQueue.textChannel.send(stopEmbed());
+    serverQueue.voiceChannel.leave();
+    globalQueue.delete(guild.id);
+    return;
+  }
+
+  // Song dispatcher
+  const dispatcher = serverQueue.connection.play(
+    ytdl(song.url, { highWaterMark: 1 << 25 })
+  );
+  serverQueue.dispatcher = dispatcher;
+  dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
+  serverQueue.textChannel.send(nowPlayingEmbed(song));
+
+  dispatcher.on("finish", () => {
+    serverQueue.songs.shift();
+    playSong(guild, serverQueue.songs[0]);
+  });
+
+  dispatcher.on("error", (error) => {
+    console.error(error);
+    serverQueue.textChannel.send(
+      `Sorry, "${song.title}" could not be played! Let me play the next song for you.`
+    );
+    serverQueue.songs.shift();
+    playSong(guild, serverQueue.songs[0]);
+  });
+};
 
 module.exports = {
-  queueDescription: (serverQueue) => {
+  createQueue: (message) => {
+    const queueConstruct = {
+      textChannel: message.channel,
+      voiceChannel: message.member.voice.channel,
+      connection: null,
+      songs: [],
+      volume: 5,
+      playing: true,
+    };
+
+    return queueConstruct;
+  },
+
+  joinVoiceChannel: async (message) => {
+    const globalQueue = message.client.queue;
+    const serverQueue = globalQueue.get(message.guild.id);
+
+    try {
+      const connection = await message.member.voice.channel.join();
+      serverQueue.connection = connection;
+    } catch (error) {
+      console.error(error);
+      globalQueue.delete(message.guild.id);
+      return message.channel.send(error);
+    }
+  },
+
+  queueEmbedDescription: (serverQueue) => {
     const songs = serverQueue.songs;
     let description;
 
@@ -76,4 +157,7 @@ module.exports = {
 
     return description;
   },
+
+  msToTime,
+  playSong,
 };

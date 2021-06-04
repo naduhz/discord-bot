@@ -1,7 +1,8 @@
 const Discord = require("discord.js");
 const ytsr = require("ytsr");
-const { songAddedEmbed } = require("../utils/embeds");
-const { createQueue } = require("../utils/createQueue");
+
+const { songAddedEmbed } = require("../../utils/embeds");
+const { createQueue } = require("../../utils/musicUtils");
 
 module.exports = {
   name: "search",

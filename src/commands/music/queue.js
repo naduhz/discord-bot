@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
-const { queueDescription } = require("../utils/queueDescription");
+
+const { queueEmbedDescription } = require("../../utils/musicUtils");
 
 module.exports = {
   name: "queue",
@@ -16,7 +17,7 @@ module.exports = {
       return message.channel.send("There is no server queue at the moment!");
     }
 
-    description = queueDescription(serverQueue);
+    description = queueEmbedDescription(serverQueue);
 
     const queueEmbed = new Discord.MessageEmbed()
       .setTitle(

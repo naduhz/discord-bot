@@ -1,6 +1,6 @@
-const imgurSearchRequests = require("../utils/imgurSearchRequests");
-const SearchParameter = require("../utils/searchParameterConstructor");
-const imageEmbed = require("../utils/imageEmbed");
+const imgurSearchRequests = require("../../utils/imgurSearchRequests");
+const SearchParameter = require("../../utils/searchParameterConstructor");
+const imageEmbed = require("../../utils/imageEmbed");
 
 module.exports = {
   name: "emilia",
