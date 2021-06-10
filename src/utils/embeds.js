@@ -39,4 +39,15 @@ module.exports = {
 
     return baseEmbed;
   },
+
+  helpEmbed: () => {
+    const baseEmbed = new Discord.MessageEmbed()
+      .setColor(3447003)
+      .setDescription()
+      .setThumbnail()
+      .addFields()
+      .setImage();
+
+    return baseEmbed;
+  },
 };

@@ -33,7 +33,7 @@ client.once("disconnect", () => {
   console.log("Disconnecting...");
 });
 
-// Client reactions on message
+// Client action on message
 client.on("message", (message) => {
   if (!message.content.startsWith(prefix) || message.author.bot) return;
 
@@ -43,9 +43,8 @@ client.on("message", (message) => {
   if (!client.commands.has(commandName))
     return message.reply("I do not know this command!");
 
+  // Execute commands
   const command = client.commands.get(commandName);
-
-  // Execution
   try {
     command.execute(message, args);
   } catch (error) {
