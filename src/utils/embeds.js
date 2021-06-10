@@ -40,13 +40,17 @@ module.exports = {
     return baseEmbed;
   },
 
-  helpEmbed: () => {
+  helpEmbed: (title, description) => {
     const baseEmbed = new Discord.MessageEmbed()
+      .setTitle(title)
       .setColor(3447003)
-      .setDescription()
-      .setThumbnail()
-      .addFields()
-      .setImage();
+      .setDescription(description)
+      .setThumbnail("https://i.imgur.com/pJWOgP9.png");
+    // .addFields({
+    //   name: "inline field title",
+    //   value: "some value",
+    //   inline: true,
+    // });
 
     return baseEmbed;
   },

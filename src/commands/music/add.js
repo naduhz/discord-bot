@@ -5,6 +5,7 @@ const { songAddedEmbed } = require("../../utils/embeds");
 
 module.exports = {
   name: "add",
+  category: "music",
   description: "Add a song to the queue.",
   async execute(message, args) {
     const globalQueue = message.client.queue;

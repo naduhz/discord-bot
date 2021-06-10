@@ -6,6 +6,7 @@ const { createQueue, joinVoiceChannel } = require("../../utils/musicUtils");
 
 module.exports = {
   name: "search",
+  category: "music",
   description: "Search for a song",
 
   async execute(message, args) {

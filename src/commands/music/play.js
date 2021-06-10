@@ -9,6 +9,7 @@ const { songAddedEmbed } = require("../../utils/embeds");
 
 module.exports = {
   name: "play",
+  category: "music",
   description: "Start playing from the queue.",
 
   async execute(message, args) {

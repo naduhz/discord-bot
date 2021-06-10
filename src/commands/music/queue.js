@@ -4,6 +4,7 @@ const { queueEmbedDescription } = require("../../utils/musicUtils");
 
 module.exports = {
   name: "queue",
+  category: "music",
   description: "Displays the queue.",
   async execute(message, args) {
     const globalQueue = message.client.queue;

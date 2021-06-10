@@ -1,5 +1,6 @@
 module.exports = {
   name: "pause",
+  category: "music",
   description: "Pauses the song being played",
   async execute(message, args) {
     const globalQueue = message.client.queue;

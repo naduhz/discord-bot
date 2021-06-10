@@ -1,4 +1,4 @@
-const { stopEmbed } = require("../utils/embeds");
+const { stopEmbed } = require("../../utils/embeds");
 
 module.exports = {
   name: "stop",

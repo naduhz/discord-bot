@@ -4,6 +4,7 @@ const imageEmbed = require("../../utils/imageEmbed");
 
 module.exports = {
   name: "kiss",
+  category: "fun",
   description: "Fetches kiss (anime) animations off imgur",
 
   async execute(message, args) {
