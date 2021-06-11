@@ -46,7 +46,7 @@ module.exports = {
       const displayAllCommands = new Discord.MessageEmbed(
         displayAllCommandsEmbed(
           "Kei Commands",
-          `Usage: \`kt!help <command>(optional)\`
+          `Usage: \`${prefix}help [command]\`
           
           Enter a command as an argument to find out more about the command!`
         )
