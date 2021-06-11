@@ -1,7 +1,9 @@
 module.exports = {
-    name: 'ping',
-    description: 'Pong.',
-    execute(message) {
-        message.channel.send('Pong.');
-    }
-}
+  name: "ping",
+  category: "fun",
+  description: "Pong.",
+  usage: "`kt!ping`",
+  execute(message) {
+    message.channel.send("Pong.");
+  },
+};

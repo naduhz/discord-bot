@@ -33,9 +33,28 @@ module.exports = {
 
   stopEmbed: () => {
     const baseEmbed = new Discord.MessageEmbed()
-      .setTitle("There are no songs for me to stop!")
+      .setTitle("There are no songs left!")
       .setColor(3447003)
       .setDescription("Bye bye!");
+
+    return baseEmbed;
+  },
+
+  displayAllCommandsEmbed: (title, description) => {
+    const baseEmbed = new Discord.MessageEmbed()
+      .setTitle(title)
+      .setColor(3447003)
+      .setDescription(description)
+      .setThumbnail("https://i.imgur.com/pJWOgP9.png");
+
+    return baseEmbed;
+  },
+
+  displaySingleCommandEmbed: (title, description) => {
+    const baseEmbed = new Discord.MessageEmbed()
+      .setTitle(title)
+      .setColor(3447003)
+      .setDescription(description);
 
     return baseEmbed;
   },

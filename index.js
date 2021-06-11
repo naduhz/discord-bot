@@ -2,7 +2,6 @@
 const fs = require("fs");
 const Discord = require("discord.js");
 const commandFolder = fs.readdirSync("./src/commands");
-
 const dotenv = require("dotenv");
 dotenv.config();
 const prefix = process.env.PREFIX;
@@ -34,7 +33,7 @@ client.once("disconnect", () => {
   console.log("Disconnecting...");
 });
 
-// Client reactions on message
+// Client action on message
 client.on("message", (message) => {
   if (!message.content.startsWith(prefix) || message.author.bot) return;
 
@@ -44,9 +43,8 @@ client.on("message", (message) => {
   if (!client.commands.has(commandName))
     return message.reply("I do not know this command!");
 
+  // Execute commands
   const command = client.commands.get(commandName);
-
-  // Execution
   try {
     command.execute(message, args);
   } catch (error) {

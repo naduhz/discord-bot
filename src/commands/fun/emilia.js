@@ -1,10 +1,12 @@
-const imgurSearchRequests = require("../utils/imgurSearchRequests");
-const SearchParameter = require("../utils/searchParameterConstructor");
-const imageEmbed = require("../utils/imageEmbed");
+const imgurSearchRequests = require("../../utils/imgurSearchRequests");
+const SearchParameter = require("../../utils/searchParameterConstructor");
+const imageEmbed = require("../../utils/imageEmbed");
 
 module.exports = {
   name: "emilia",
+  category: "fun",
   description: "Fetches Emilia animations off imgur",
+  usage: "`kt!emilia`",
 
   async execute(message, args) {
     const searchParameters = new SearchParameter("emilia", "anime", "gif");
