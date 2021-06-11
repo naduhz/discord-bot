@@ -4,6 +4,8 @@ module.exports = {
   name: "stop",
   category: "music",
   description: "Stops the music player and removes all songs from the queue.",
+  usage: "`kt!stop`",
+
   execute(message, args) {
     const globalQueue = message.client.queue;
     const serverQueue = globalQueue.get(message.guild.id);

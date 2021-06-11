@@ -2,6 +2,8 @@ module.exports = {
   name: "pause",
   category: "music",
   description: "Pauses the song being played",
+  usage: "`kt!pause`",
+
   async execute(message, args) {
     const globalQueue = message.client.queue;
     const serverQueue = globalQueue.get(message.guild.id);

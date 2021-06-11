@@ -12,10 +12,10 @@ module.exports = {
   usage: "`kt!help <command>(optional)`",
 
   async execute(message, args) {
-    const commandList = Array.from(message.client.commands.values());
+    const commandObjectList = Array.from(message.client.commands.values());
 
     const commandCategories = {};
-    for (const commandObject of commandList) {
+    for (const commandObject of commandObjectList) {
       if (!commandCategories[commandObject.category]) {
         commandCategories[commandObject.category] = [commandObject.name];
       } else {
@@ -29,14 +29,14 @@ module.exports = {
         name: category[0].toUpperCase() + category.slice(1),
         value: "",
       };
-      for (const categoryCommand of commandCategories[category]) {
+      for (const command of commandCategories[category]) {
         if (
-          categoryCommand !==
+          command !==
           commandCategories[category][commandCategories[category].length - 1]
         ) {
-          embedField.value += `\`${categoryCommand}\`, `;
+          embedField.value += `\`${command}\`, `;
         } else {
-          embedField.value += `\`${categoryCommand}\``;
+          embedField.value += `\`${command}\``;
         }
       }
       fieldDescription.push(embedField);
@@ -57,7 +57,7 @@ module.exports = {
       args = args[0].toLowerCase();
 
       if (commandNames.includes(args)) {
-        for (const commandObject of commandList) {
+        for (const commandObject of commandObjectList) {
           if (commandObject.name == args) {
             const displaySingleCommand = new Discord.MessageEmbed(
               displaySingleCommandEmbed(

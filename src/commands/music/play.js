@@ -11,6 +11,7 @@ module.exports = {
   name: "play",
   category: "music",
   description: "Start playing from the queue.",
+  usage: "`kt!play [song name] (optional if a song is already in the queue)`",
 
   async execute(message, args) {
     const globalQueue = message.client.queue;

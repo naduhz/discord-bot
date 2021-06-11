@@ -2,6 +2,8 @@ module.exports = {
   name: "skip",
   category: "music",
   description: "Skips the current song to the next song in the queue.",
+  usage: "`kt!skip`",
+
   async execute(message, args) {
     const globalQueue = message.client.queue;
     const serverQueue = globalQueue.get(message.guild.id);

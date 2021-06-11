@@ -6,6 +6,8 @@ module.exports = {
   name: "queue",
   category: "music",
   description: "Displays the queue.",
+  usage: "`kt!queue`",
+
   async execute(message, args) {
     const globalQueue = message.client.queue;
     const serverQueue = globalQueue.get(message.guild.id);
