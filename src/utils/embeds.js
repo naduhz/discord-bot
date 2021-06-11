@@ -40,17 +40,21 @@ module.exports = {
     return baseEmbed;
   },
 
-  helpEmbed: (title, description) => {
+  displayAllCommandsEmbed: (title, description) => {
     const baseEmbed = new Discord.MessageEmbed()
       .setTitle(title)
       .setColor(3447003)
       .setDescription(description)
       .setThumbnail("https://i.imgur.com/pJWOgP9.png");
-    // .addFields({
-    //   name: "inline field title",
-    //   value: "some value",
-    //   inline: true,
-    // });
+
+    return baseEmbed;
+  },
+
+  displaySingleCommandEmbed: (title, description) => {
+    const baseEmbed = new Discord.MessageEmbed()
+      .setTitle(title)
+      .setColor(3447003)
+      .setDescription(description);
 
     return baseEmbed;
   },

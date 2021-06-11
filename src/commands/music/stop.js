@@ -2,6 +2,7 @@ const { stopEmbed } = require("../../utils/embeds");
 
 module.exports = {
   name: "stop",
+  category: "music",
   description: "Stops the music player and removes all songs from the queue.",
   execute(message, args) {
     const globalQueue = message.client.queue;
