@@ -1,10 +1,11 @@
 const { stopEmbed } = require("../../utils/embeds");
+const prefix = process.env.PREFIX;
 
 module.exports = {
   name: "stop",
   category: "music",
   description: "Stops the music player and removes all songs from the queue.",
-  usage: "`kt!stop`",
+  usage: `\`${prefix}stop\``,
 
   execute(message, args) {
     const globalQueue = message.client.queue;

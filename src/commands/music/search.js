@@ -3,12 +3,13 @@ const ytsr = require("ytsr");
 
 const { songAddedEmbed } = require("../../utils/embeds");
 const { createQueue, joinVoiceChannel } = require("../../utils/musicUtils");
+const prefix = process.env.PREFIX;
 
 module.exports = {
   name: "search",
   category: "music",
-  description: "Search for a song",
-  usage: "`kt!search <song name>`",
+  description: "Search for a song.",
+  usage: `\`${prefix}search <song name>\``,
 
   async execute(message, args) {
     if (args == "") {

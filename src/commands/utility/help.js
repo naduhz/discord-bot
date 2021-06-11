@@ -9,7 +9,7 @@ module.exports = {
   name: "help",
   category: "utility",
   description: "Displays help for commands.",
-  usage: "`kt!help <command>(optional)`",
+  usage: `\`${prefix}help [command]\``,
 
   async execute(message, args) {
     const commandObjectList = Array.from(message.client.commands.values());
@@ -46,7 +46,7 @@ module.exports = {
       const displayAllCommands = new Discord.MessageEmbed(
         displayAllCommandsEmbed(
           "Kei Commands",
-          `Usage: \`kt!help <command>(optional)\`
+          `Usage: \`${prefix}help [command]\`
           
           Enter a command as an argument to find out more about the command!`
         )
