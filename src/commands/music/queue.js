@@ -1,12 +1,13 @@
 const Discord = require("discord.js");
 
 const { queueEmbedDescription } = require("../../utils/musicUtils");
+const prefix = process.env.PREFIX;
 
 module.exports = {
   name: "queue",
   category: "music",
   description: "Displays the queue.",
-  usage: "`kt!queue`",
+  usage: `\`${prefix}\`` + "`queue`",
 
   async execute(message, args) {
     const globalQueue = message.client.queue;

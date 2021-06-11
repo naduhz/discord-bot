@@ -1,8 +1,10 @@
+const prefix = process.env.PREFIX;
+
 module.exports = {
   name: "pause",
   category: "music",
   description: "Pauses the song being played",
-  usage: "`kt!pause`",
+  usage: `\`${prefix}\`` + "`pause`",
 
   async execute(message, args) {
     const globalQueue = message.client.queue;

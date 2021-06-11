@@ -1,8 +1,10 @@
+const prefix = process.env.PREFIX;
+
 module.exports = {
   name: "skip",
   category: "music",
   description: "Skips the current song to the next song in the queue.",
-  usage: "`kt!skip`",
+  usage: `\`${prefix}\`` + "`skip`",
 
   async execute(message, args) {
     const globalQueue = message.client.queue;

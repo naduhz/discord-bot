@@ -1,12 +1,13 @@
 const imgurSearchRequests = require("../../utils/imgurSearchRequests");
 const SearchParameter = require("../../utils/searchParameterConstructor");
 const imageEmbed = require("../../utils/imageEmbed");
+const prefix = process.env.PREFIX;
 
 module.exports = {
   name: "saber",
   category: "fun",
   description: "Fetches Saber animations off imgur",
-  usage: "`kt!saber`",
+  usage: `\`${prefix}\`` + "`saber`",
 
   async execute(message, args) {
     const searchParameters = new SearchParameter("saber", "anime", "gif");

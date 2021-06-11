@@ -1,5 +1,7 @@
 const ytsr = require("ytsr");
 
+const prefix = process.env.PREFIX;
+
 const {
   createQueue,
   joinVoiceChannel,
@@ -12,7 +14,7 @@ module.exports = {
   category: "music",
   description:
     "Start playing a specified song or starts playing from the queue.",
-  usage: "`kt!play <song name>(optional if a song is already in the queue)`",
+  usage: `\`${prefix}\`` + "`play [song name]`",
 
   async execute(message, args) {
     const globalQueue = message.client.queue;
