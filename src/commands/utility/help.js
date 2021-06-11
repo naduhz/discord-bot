@@ -9,7 +9,7 @@ module.exports = {
   name: "help",
   category: "utility",
   description: "Displays help for commands.",
-  usage: `\`${prefix}\`` + "`help [command]`",
+  usage: `\`${prefix}help [command]\``,
 
   async execute(message, args) {
     const commandObjectList = Array.from(message.client.commands.values());

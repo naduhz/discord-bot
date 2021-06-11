@@ -7,7 +7,7 @@ module.exports = {
   name: "queue",
   category: "music",
   description: "Displays the queue.",
-  usage: `\`${prefix}\`` + "`queue`",
+  usage: `\`${prefix}queue\``,
 
   async execute(message, args) {
     const globalQueue = message.client.queue;

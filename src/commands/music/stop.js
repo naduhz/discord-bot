@@ -5,7 +5,7 @@ module.exports = {
   name: "stop",
   category: "music",
   description: "Stops the music player and removes all songs from the queue.",
-  usage: `\`${prefix}\`` + "`stop`",
+  usage: `\`${prefix}stop\``,
 
   execute(message, args) {
     const globalQueue = message.client.queue;

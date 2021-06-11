@@ -14,7 +14,7 @@ module.exports = {
   category: "music",
   description:
     "Start playing a specified song or starts playing from the queue.",
-  usage: `\`${prefix}\`` + "`play [song name]`",
+  usage: `\`${prefix}play [song name]\``,
 
   async execute(message, args) {
     const globalQueue = message.client.queue;

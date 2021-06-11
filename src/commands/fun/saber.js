@@ -7,7 +7,7 @@ module.exports = {
   name: "saber",
   category: "fun",
   description: "Fetches Saber animations off imgur",
-  usage: `\`${prefix}\`` + "`saber`",
+  usage: `\`${prefix}saber\``,
 
   async execute(message, args) {
     const searchParameters = new SearchParameter("saber", "anime", "gif");

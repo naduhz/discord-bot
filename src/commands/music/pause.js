@@ -4,7 +4,7 @@ module.exports = {
   name: "pause",
   category: "music",
   description: "Pauses the song being played",
-  usage: `\`${prefix}\`` + "`pause`",
+  usage: `\`${prefix}pause\``,
 
   async execute(message, args) {
     const globalQueue = message.client.queue;
