@@ -8,7 +8,7 @@ module.exports = {
   name: "search",
   category: "music",
   description: "Search for a song",
-  usage: "`kt!search [song name]`",
+  usage: "`kt!search <song name>`",
 
   async execute(message, args) {
     if (args == "") {

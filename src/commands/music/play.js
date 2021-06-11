@@ -10,8 +10,9 @@ const { songAddedEmbed } = require("../../utils/embeds");
 module.exports = {
   name: "play",
   category: "music",
-  description: "Start playing from the queue.",
-  usage: "`kt!play [song name] (optional if a song is already in the queue)`",
+  description:
+    "Start playing a specified song or starts playing from the queue.",
+  usage: "`kt!play <song name>(optional if a song is already in the queue)`",
 
   async execute(message, args) {
     const globalQueue = message.client.queue;

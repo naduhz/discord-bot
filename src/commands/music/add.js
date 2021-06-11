@@ -7,7 +7,7 @@ module.exports = {
   name: "add",
   category: "music",
   description: "Add a song to the queue.",
-  usage: "`kt!add [song name]`",
+  usage: "`kt!add <song name>`",
 
   async execute(message, args) {
     const globalQueue = message.client.queue;
