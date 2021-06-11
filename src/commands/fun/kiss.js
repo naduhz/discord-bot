@@ -6,7 +6,7 @@ const prefix = process.env.PREFIX;
 module.exports = {
   name: "kiss",
   category: "fun",
-  description: "Fetches kiss (anime) animations off imgur",
+  description: "Fetches kiss (anime) animations off Imgur.",
   usage: `\`${prefix}kiss\``,
 
   async execute(message, args) {

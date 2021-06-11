@@ -8,7 +8,7 @@ const prefix = process.env.PREFIX;
 module.exports = {
   name: "search",
   category: "music",
-  description: "Search for a song",
+  description: "Search for a song.",
   usage: `\`${prefix}search <song name>\``,
 
   async execute(message, args) {

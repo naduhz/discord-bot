@@ -3,7 +3,7 @@ const prefix = process.env.PREFIX;
 module.exports = {
   name: "pause",
   category: "music",
-  description: "Pauses the song being played",
+  description: "Pauses the song being played.",
   usage: `\`${prefix}pause\``,
 
   async execute(message, args) {
