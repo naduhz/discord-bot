@@ -3,7 +3,7 @@ const prefix = process.env.PREFIX;
 module.exports = {
   name: "clear",
   category: "chat management",
-  description: "Clears up to 100 messages at a time.",
+  description: "Clears between 2 to 100 messages at a time.",
   usage: `\`${prefix}clear [user] <amount>\``,
 
   async execute(message, args) {
@@ -14,6 +14,11 @@ module.exports = {
       });
 
       if (filteredArgs.length > 0) {
+        if (+filteredMessages[0] < 2) {
+          return message.channel.send(
+            "Why don't you just delete it yourself then..."
+          );
+        }
         const fetchedMessages = Array.from(
           await message.channel.messages.fetch({
             limit: 100,
@@ -58,6 +63,11 @@ module.exports = {
       }
     } else {
       if (args.length > 0) {
+        if (+filteredMessages[0] < 2) {
+          return message.channel.send(
+            "Why don't you just delete it yourself then..."
+          );
+        }
         const fetchedMessages = await message.channel.messages.fetch({
           limit: args[0],
         });
