@@ -14,7 +14,7 @@ module.exports = {
       });
 
       if (filteredArgs.length > 0) {
-        if (+filteredMessages[0] < 2) {
+        if (+filteredArgs[0] < 2) {
           return message.channel.send(
             "Why don't you just delete it yourself then..."
           );
@@ -63,7 +63,7 @@ module.exports = {
       }
     } else {
       if (args.length > 0) {
-        if (+filteredMessages[0] < 2) {
+        if (+filteredArgs[0] < 2) {
           return message.channel.send(
             "Why don't you just delete it yourself then..."
           );
