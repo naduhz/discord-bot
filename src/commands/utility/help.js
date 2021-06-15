@@ -25,8 +25,24 @@ module.exports = {
 
     const fieldDescription = [];
     for (const category in commandCategories) {
+      var emoji = "";
+      switch (category) {
+        case "chat management":
+          emoji = ":plunger:";
+          break;
+        case "fun":
+          emoji = ":video_game:";
+          break;
+        case "music":
+          emoji = ":headphones:";
+          break;
+        case "utility":
+          emoji = ":wrench:";
+          break;
+      }
+
       const embedField = {
-        name: category[0].toUpperCase() + category.slice(1),
+        name: emoji + category[0].toUpperCase() + category.slice(1),
         value: "",
       };
       for (const command of commandCategories[category]) {
