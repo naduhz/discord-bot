@@ -4,13 +4,13 @@ const imageEmbed = require("../../utils/imageEmbed");
 const prefix = process.env.PREFIX;
 
 module.exports = {
-  name: "saber",
+  name: "emilia",
   category: "fun",
-  description: "Fetches Saber animations off Imgur.",
-  usage: `\`${prefix}saber\``,
+  description: "Fetches Emilia animations off Imgur.",
+  usage: `\`${prefix}emilia\``,
 
   async execute(message, args) {
-    const searchParameters = new SearchParameter("saber", "anime", "gif");
+    const searchParameters = new SearchParameter("emilia", "anime", "gif");
     const results = await imgurSearchRequests(searchParameters);
 
     const randomAlbum = results[Math.floor(Math.random() * results.length)];
@@ -18,7 +18,7 @@ module.exports = {
     try {
       if (!randomAlbum.hasOwnProperty("images")) {
         const embed = imageEmbed(randomAlbum.link);
-        embed.description = `${message.author.toString()} has been blessed by Saber's presence!`;
+        embed.description = `EMT!! (Emilia-tan Maji Tenshi!!)`;
         return message.channel.send(embed);
       } else {
         const randomImageLink =
@@ -26,7 +26,7 @@ module.exports = {
             Math.floor(Math.random() * randomAlbum.images.length)
           ].link;
         const embed = imageEmbed(randomImageLink);
-        embed.description = `${message.author.toString()} has been blessed by Saber's presence!`;
+        embed.description = `EMT!! (Emilia-tan Maji Tenshi!!)`;
         return message.channel.send(embed);
       }
     } catch (error) {

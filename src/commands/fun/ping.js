@@ -1,7 +1,11 @@
+const prefix = process.env.PREFIX;
+
 module.exports = {
-    name: 'ping',
-    description: 'Pong.',
-    execute(message) {
-        message.channel.send('Pong.');
-    }
-}
+  name: "ping",
+  category: "fun",
+  description: "Pong.",
+  usage: `\`${prefix}ping\``,
+  execute(message) {
+    message.channel.send("Pong.");
+  },
+};
